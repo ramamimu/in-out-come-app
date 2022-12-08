@@ -1,14 +1,27 @@
-<script setup>
-defineProps({
-  msg: {
-    type: String,
-    required: true,
+<script>
+import { useCounterStore } from "../stores/counter";
+export default {
+  name: "HelloWorld",
+  props: {
+    msg: String,
   },
-});
+  setup() {
+    const CounterStore = useCounterStore();
+    return {
+      CounterStore,
+    };
+  },
+};
 </script>
 
 <template>
   <div class="greetings">
+    <h2>heee</h2>
+    <h2>
+      {{ CounterStore.count }}
+    </h2>
+    <p @click="CounterStore.increment()">+++</p>
+    <p>---</p>
     <h1 class="green">{{ msg }}</h1>
     <h3>
       You’ve successfully created a project with

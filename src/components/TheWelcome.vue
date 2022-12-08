@@ -1,10 +1,50 @@
-<script setup>
+<script>
 import WelcomeItem from "./WelcomeItem.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 import ToolingIcon from "./icons/IconTooling.vue";
 import EcosystemIcon from "./icons/IconEcosystem.vue";
 import CommunityIcon from "./icons/IconCommunity.vue";
 import SupportIcon from "./icons/IconSupport.vue";
+import { useCounterStore } from "../stores/counter";
+import { db } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
+
+export default {
+  name: "TheWelcome",
+  components: {
+    WelcomeItem,
+    DocumentationIcon,
+    ToolingIcon,
+    EcosystemIcon,
+    CommunityIcon,
+    SupportIcon,
+  },
+  setup() {
+    const CounterStore = useCounterStore();
+    return {
+      CounterStore,
+    };
+  },
+  data: () => ({
+    show: false,
+    test: "aku teko the welcome",
+  }),
+  mounted() {
+    this.load();
+  },
+  methods: {
+    async load() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "MoneyTracker"));
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data());
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+};
 </script>
 
 <template>
@@ -22,6 +62,9 @@ import SupportIcon from "./icons/IconSupport.vue";
   </WelcomeItem>
 
   <WelcomeItem>
+    {{ CounterStore.opoHayo }}
+
+    <button @click="CounterStore.opoHayo = test">iki tombol</button>
     <template #icon>
       <ToolingIcon />
     </template>
