@@ -1,31 +1,31 @@
 export const MUTATION = {
-  income: 0,
-  outcome: 1,
+  Income: 0,
+  Outcome: 1,
 };
 
 export const PAYMENT_METHOD = {
-  bankTransfer: 0,
-  cash: 1,
-  dana: 2,
-  shopeePay: 3,
-  gopay: 4,
-  ovo: 5,
+  "Bank Transfer": 0,
+  Cash: 1,
+  Dana: 2,
+  "Shopee Pay": 3,
+  GoPay: 4,
+  OVO: 5,
 };
 
 export const INCOME_CATEGORY = {
-  salary: 0,
-  sideHustle: 1,
-  other: 2,
+  Salary: 0,
+  "Side Hustle": 1,
+  Other: 2,
 };
 
 export const OUTCOME_CATEGORY = {
-  foodAndDrink: 0,
-  rent: 1,
-  transportation: 2,
-  subscription: 3,
-  internet: 4,
-  grocery: 5,
-  entertainment: 6,
-  clothing: 7,
-  furniture: 8,
+  "Food And Drink": 0,
+  Rent: 1,
+  Transportation: 2,
+  Subscription: 3,
+  Internet: 4,
+  Grocery: 5,
+  Entertainment: 6,
+  Clothing: 7,
+  Furniture: 8,
 };
