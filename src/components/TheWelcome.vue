@@ -30,7 +30,7 @@ export default {
     test: "aku teko the welcome",
   }),
   mounted() {
-    this.load();
+    // this.load();
   },
   methods: {
     async load() {
