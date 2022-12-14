@@ -166,12 +166,15 @@ export default {
       }
     },
     async removeTransaction(id) {
-      try {
-        await deleteDoc(doc(db, "MoneyTracker", id));
-        this.load();
-      } catch (err) {
-        console.log(err.message);
-      }
+      const link = "http://localhost:9090/delete?id=" + id;
+      const requestOption = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      fetch(link, requestOption).then((response) => console.log(response));
     },
     searchFilter(row, term) {
       console.log("Dalem Fungsi searchFilter");

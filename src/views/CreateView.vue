@@ -343,18 +343,36 @@ export default {
       return mydate.getTime().toString();
     },
     async addTransaction() {
-      try {
-        const doc = await addDoc(collection(db, "MoneyTracker"), {
+      const requestOption = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           title: this.input_title,
           date: this.dateToEpoch(this.input_date),
           mutation: MUTATION[this.input_mutation],
           amount: parseInt(this.input_amount),
           category: this.saveCategory(this.input_mutation, this.input_category),
           paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
-        });
-      } catch (err) {
-        console.log(err.message);
-      }
+        }),
+      };
+
+      fetch("http://localhost:9090/add", requestOption).then((response) =>
+        console.log(response)
+      );
+      // try {
+      //   const doc = await addDoc(collection(db, "MoneyTracker"), {
+      //     title: this.input_title,
+      //     date: this.dateToEpoch(this.input_date),
+      //     mutation: MUTATION[this.input_mutation],
+      //     amount: parseInt(this.input_amount),
+      //     category: this.saveCategory(this.input_mutation, this.input_category),
+      //     paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
+      //   });
+      // } catch (err) {
+      //   console.log(err.message);
+      // }
     },
   },
 };

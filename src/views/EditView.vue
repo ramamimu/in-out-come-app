@@ -382,19 +382,38 @@ export default {
       }
     },
     async saveChanges() {
-      try {
-        const id = this.$route.params.id;
-        await updateDoc(doc(db, "MoneyTracker", id), {
+      const requestOption = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           title: this.input_title,
           date: this.dateToEpoch(this.input_date),
           amount: parseInt(this.input_amount),
           mutation: MUTATION[this.input_mutation],
           category: this.saveCategory(this.input_mutation, this.input_category),
           paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
-        });
-      } catch (err) {
-        console.log(err.message);
-      }
+        }),
+      };
+
+      const id = this.$route.params.id;
+
+      const link = "http://localhost:9090/edit?id=" + id;
+
+      fetch(link, requestOption).then((response) => console.log(response));
+
+      // try {
+      //   const id = this.$route.params.id;
+      //   await updateDoc(doc(db, "MoneyTracker", id), {
+      //     title: this.input_title,
+      //     date: this.dateToEpoch(this.input_date),
+      //     amount: parseInt(this.input_amount),
+      //     mutation: MUTATION[this.input_mutation],
+      //     category: this.saveCategory(this.input_mutation, this.input_category),
+      //     paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
+      //   });
+      // } catch (err) {
+      //   console.log(err.message);
+      // }
     },
   },
 };
