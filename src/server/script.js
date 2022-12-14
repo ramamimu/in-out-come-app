@@ -2,6 +2,7 @@ import { WebSocket } from "./WebSocket.js";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/config.js";
 import { Emitter } from "../config/setup.js";
+import { addData, deleteData, editData } from "./FireTools.js";
 
 const IO = new WebSocket();
 const colRef = collection(db, "MoneyTracker");
@@ -34,48 +35,17 @@ IO.socket.of("/chart").on("connection", (socket) => {
   });
 });
 
-// localhost:9090/add?mutation=1&id="20123802010"
-IO.APP.post("/add", (req, res) => {
-  console.log(req.body);
-  console.log(req.query.id);
-  switch (req.query.mutation) {
-    // income
-    case "0":
-      console.log("income");
-      break;
-    // outcome
-    case "1":
-      console.log("outcome");
-      break;
-    default:
-      console.log("lain");
-      break;
-  }
-  res.send("Hello bang!");
+// localhost:9090/add
+IO.APP.post("/add", async (req, res) => {
+  await addData(req.body, res);
 });
 
-// localhost:9090/edit?mutation=1&id="20123802010"
-IO.APP.post("/edit", (req, res) => {
-  console.log(req.body);
-  console.log(req.query.id);
-  switch (req.query.mutation) {
-    // income
-    case "0":
-      console.log("income");
-      break;
-    // outcome
-    case "1":
-      console.log("outcome");
-      break;
-    default:
-      console.log("lain");
-      break;
-  }
-  res.send("Hello bang!");
+// localhost:9090/edit?id="20123802010"
+IO.APP.post("/edit", async (req, res) => {
+  await editData(req.query.id, req.body, res);
 });
 
 // localhost:9090/delete?id="20123802010"
-IO.APP.post("/delete", (req, res) => {
-  console.log(req.query.id);
-  res.send("i will delete later");
+IO.APP.post("/delete", async (req, res) => {
+  await deleteData(req.query.id, res);
 });

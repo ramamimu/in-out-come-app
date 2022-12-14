@@ -6,3 +6,4 @@ export const Emitter = {
   income: "daily_income",
   outcome: "daily_outcome",
 };
+export const cllctFirestore = "MoneyTracker";
