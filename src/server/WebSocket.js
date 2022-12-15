@@ -50,26 +50,10 @@ export class WebSocket {
     let dailyIncome = [];
     temp.forEach((item) => {
       let date = item.date;
-      // console.log(typeof date);
-      // console.log(typeof item.date);
-      // console.log(new Date(parseInt(date)).getDate());
       let amount = item.amount;
       let index = dailyIncome.findIndex((item) => {
-        // console.log(item.date);
-        // console.log(item.date, new Date(parseInt(date)).getFullYear());
-        return (
-          // new Date(parseInt(item.date)).getDate() ===
-          //   new Date(parseInt(date)).getDate() &&
-          // new Date(parseInt(item.date)).getMonth() ===
-          //   new Date(parseInt(date)).getMonth() &&
-          item.date == new Date(parseInt(date)).getFullYear()
-        );
+        return item.date == new Date(parseInt(date)).getFullYear();
       });
-      // new Date(item.date).getDate() === date.getDate() &&
-      // item.date.getMonth() === date.getMonth() &&
-      // item.date.getFullYear() === date.getFullYear()
-      // console.log(typeof date);
-      // console.log(index);
       if (index === -1) {
         dailyIncome.push({
           date: new Date(parseInt(date)).getFullYear(),
@@ -80,8 +64,6 @@ export class WebSocket {
       }
     });
 
-    // console.log(dailyIncome);
     return dailyIncome;
-    // return 0;
   }
 }

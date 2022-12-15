@@ -41,11 +41,11 @@ IO.APP.post("/add", async (req, res) => {
 });
 
 // localhost:9090/edit?id="20123802010"
-IO.APP.post("/edit", async (req, res) => {
+IO.APP.put("/edit", async (req, res) => {
   await editData(req.query.id, req.body, res);
 });
 
 // localhost:9090/delete?id="20123802010"
-IO.APP.post("/delete", async (req, res) => {
+IO.APP.delete("/delete", async (req, res) => {
   await deleteData(req.query.id, res);
 });

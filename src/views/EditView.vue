@@ -416,7 +416,7 @@ export default {
     },
     async saveChanges() {
       const requestOption = {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: this.input_title,

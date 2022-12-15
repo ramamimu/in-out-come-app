@@ -162,7 +162,7 @@ export default {
     async removeTransaction(id) {
       const link = "http://localhost:9090/delete?id=" + id;
       const requestOption = {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
