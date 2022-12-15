@@ -25,7 +25,7 @@
       <tr v-for="(item, index) in renderList()" :key="index" class="item-row">
         <td>{{ item.title }}</td>
         <td>{{ convertMutationToText(item.mutation) }}</td>
-        <td>{{ item.date }}</td>
+        <td>{{ convertDatetoText(item.date) }}</td>
         <td>Rp.{{ moneyHandling(item.amount) }}</td>
         <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
         <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
@@ -115,6 +115,11 @@ export default {
     },
     convertPaymentMethodToText(index) {
       return this.ToolsStore.convertToText(PAYMENT_METHOD, index);
+    },
+    convertDatetoText(epochDate) {
+      let utcSeconds = epochDate;
+      let d = new Date(parseInt(utcSeconds));
+      return d.toDateString();
     },
     async removeTransaction(id) {
       const link = "http://localhost:9090/delete?id=" + id;
