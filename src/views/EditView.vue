@@ -1,6 +1,6 @@
 <template>
   <h1>Edit Transaction</h1>
-
+  <!-- {{CRUDStore.transactions}} -->
   <button class="btn-back" @click="$router.go(-1)">Back</button>
   <div class="form">
     <form id="new-transaction-form" @submit.prevent="saveChanges()">
@@ -282,7 +282,7 @@
 </template>
 
 <script>
-import { useCounterStore, useToolsStore } from "../stores/counter";
+import { useToolsStore, useCRUDStore } from "../stores/counter";
 import {
   MUTATION,
   PAYMENT_METHOD,
@@ -305,11 +305,11 @@ export default {
     };
   },
   setup() {
-    const CounterStore = useCounterStore();
+    const CRUDStore = useCRUDStore();
     const ToolsStore = useToolsStore();
     return {
-      CounterStore,
       ToolsStore,
+      CRUDStore,
     };
   },
   mounted() {
@@ -339,44 +339,57 @@ export default {
     },
     async load() {
       try {
-        const id = this.$route.params.id;
-        const querySnapshot = await getDoc(doc(db, "MoneyTracker", id));
-
-        let utcSeconds = querySnapshot.data().date;
-        let d = new Date(parseInt(utcSeconds));
-
-        this.input_title = querySnapshot.data().title;
-        this.input_mutation = this.ToolsStore.convertToText(
-          MUTATION,
-          querySnapshot.data().mutation
-        );
-
-        if (d.getMonth() + 1 < 10) {
-          if (d.getDate() < 10) {
-            this.input_date =
-              d.getFullYear() + "-0" + (d.getMonth() + 1) + "-0" + d.getDate();
-          } else {
-            this.input_date =
-              d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" + d.getDate();
+        const params_id = this.$route.params.id;
+        this.CRUDStore.transactions.forEach((element) => {
+          if (element.id == params_id) {
+            console.log(element);
+            this.input_title = element.title;
+            this.input_date = this.dateToEpoch(element.date);
+            console.log("elementdate", element.date);
+            console.log("inputdate", this.input_date);
+            this.input_mutation = element.mutation;
+            this.input_amount = element.amount;
+            this.input_category = element.category;
+            this.input_paymentmethod = element.paymentMethod;
           }
-        } else {
-          if (d.getDate() < 10) {
-            this.input_date =
-              d.getFullYear() + "-" + (d.getMonth() + 1) + "-0" + d.getDate();
-          } else {
-            this.input_date =
-              d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-          }
-        }
-        this.input_amount = querySnapshot.data().amount;
-        this.input_category = this.checkMutationCategory(
-          querySnapshot.data().mutation,
-          querySnapshot.data().category
-        );
-        this.input_paymentmethod = this.ToolsStore.convertToText(
-          PAYMENT_METHOD,
-          querySnapshot.data().paymentmethod
-        );
+        });
+        // const querySnapshot = await getDoc(doc(db, "MoneyTracker", id));
+
+        // let utcSeconds = querySnapshot.data().date;
+        // let d = new Date(parseInt(utcSeconds));
+
+        // this.input_title = querySnapshot.data().title;
+        // this.input_mutation = this.ToolsStore.convertToText(
+        //   MUTATION,
+        //   querySnapshot.data().mutation
+        // );
+
+        // if (d.getMonth() + 1 < 10) {
+        //   if (d.getDate() < 10) {
+        //     this.input_date =
+        //       d.getFullYear() + "-0" + (d.getMonth() + 1) + "-0" + d.getDate();
+        //   } else {
+        //     this.input_date =
+        //       d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" + d.getDate();
+        //   }
+        // } else {
+        //   if (d.getDate() < 10) {
+        //     this.input_date =
+        //       d.getFullYear() + "-" + (d.getMonth() + 1) + "-0" + d.getDate();
+        //   } else {
+        //     this.input_date =
+        //       d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        //   }
+        // }
+        // this.input_amount = querySnapshot.data().amount;
+        // this.input_category = this.checkMutationCategory(
+        //   querySnapshot.data().mutation,
+        //   querySnapshot.data().category
+        // );
+        // this.input_paymentmethod = this.ToolsStore.convertToText(
+        //   PAYMENT_METHOD,
+        //   querySnapshot.data().paymentmethod
+        // );
       } catch (err) {
         console.log(err.message);
       }

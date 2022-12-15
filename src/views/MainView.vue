@@ -1,5 +1,7 @@
 <template>
   <h1>Money Mutation List</h1>
+  <!-- {{CRUDStore.transactions}} -->
+  <button class="btn-create" @click="$router.push('Create')">Create New</button>
   <div class="Search-Bar">
     <input
       type="text"
@@ -9,7 +11,7 @@
     />
   </div>
   <table>
-    <thead>
+    <tbody>
       <tr>
         <th
           v-for="(column, index) in columns"
@@ -20,28 +22,23 @@
           {{ column }}
         </th>
       </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(row, index) in renderList()" :key="index" class="item-row">
-        <td
-          v-for="(rowItem, itemIndex) in row"
-          :key="itemIndex"
-          class="item-column"
-        >
-          <template v-if="itemIndex != 'id'">
-            {{ rowItem }}
-          </template>
-          <template v-else>
-            <button
-              class="btn btn-success"
-              @click="$router.push({ name: 'Edit', params: { id: row.id } })"
-            >
-              Edit
-            </button>
-            <button class="btn btn-danger" @click="removeTransaction(row.id)">
-              Delete
-            </button>
-          </template>
+      <tr v-for="(item, index) in renderList()" :key="index" class="item-row">
+        <td>{{ item.title }}</td>
+        <td>{{ convertMutationToText(item.mutation) }}</td>
+        <td>{{ item.date }}</td>
+        <td>Rp.{{ moneyHandling(item.amount) }}</td>
+        <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
+        <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
+        <td>
+          <button
+            class="btn btn-success"
+            @click="$router.push({ name: 'Edit', params: { id: item.id } })"
+          >
+            Edit
+          </button>
+          <button class="btn btn-danger" @click="removeTransaction(item.id)">
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>
@@ -49,23 +46,13 @@
 </template>
 
 <script>
-import { useCounterStore, useToolsStore } from "../stores/counter";
+import { useToolsStore, useCRUDStore } from "../stores/counter";
 import {
   MUTATION,
   PAYMENT_METHOD,
   INCOME_CATEGORY,
   OUTCOME_CATEGORY,
 } from "../stores/utils";
-import { db } from "../firebase/config";
-import {
-  collection,
-  getDocs,
-  deleteDoc,
-  doc,
-  query,
-  orderBy,
-  limit,
-} from "firebase/firestore";
 
 export default {
   name: "MainView",
@@ -90,18 +77,16 @@ export default {
       clickIndexName: "title",
     };
   },
-
   setup() {
-    const CounterStore = useCounterStore();
     const ToolsStore = useToolsStore();
+    const CRUDStore = useCRUDStore();
     return {
-      CounterStore,
       ToolsStore,
+      CRUDStore,
     };
   },
   mounted() {
     this.rows = [...this.MoneyTrackers];
-    this.load();
   },
   methods: {
     checkMutationCategory(mutation, category) {
@@ -125,45 +110,11 @@ export default {
     stringChecker(word) {
       return Object.prototype.toString.call(word) === "[object String]";
     },
-    async load() {
-      try {
-        const moneyTrackerRef = collection(db, "MoneyTracker");
-        const q = query(moneyTrackerRef, orderBy("date", "asc"));
-        // const q = query(moneyTrackerRef, orderBy(this.sortColumn,this.sortDirection));
-        const querySnapshot = await getDocs(q);
-
-        this.MoneyTrackers = [];
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-        });
-
-        querySnapshot.forEach((doc) => {
-          let utcSeconds = doc.data().date;
-          let d = new Date(parseInt(utcSeconds));
-
-          this.MoneyTrackers.push({
-            title: doc.data().title,
-            mutation: this.ToolsStore.convertToText(
-              MUTATION,
-              doc.data().mutation
-            ),
-            date: d.toDateString(),
-            amount: doc.data().amount,
-            category: this.checkMutationCategory(
-              doc.data().mutation,
-              doc.data().category
-            ),
-            paymentMethod: this.ToolsStore.convertToText(
-              PAYMENT_METHOD,
-              doc.data().paymentmethod
-            ),
-            id: doc.id,
-          });
-        });
-      } catch (err) {
-        console.log(err.message);
-      }
+    convertMutationToText(index) {
+      return this.ToolsStore.convertToText(MUTATION, index);
+    },
+    convertPaymentMethodToText(index) {
+      return this.ToolsStore.convertToText(PAYMENT_METHOD, index);
     },
     async removeTransaction(id) {
       const link = "http://localhost:9090/delete?id=" + id;
@@ -177,24 +128,21 @@ export default {
       fetch(link, requestOption).then((response) => console.log(response));
     },
     searchFilter(row, term) {
-      console.log("Dalem Fungsi searchFilter");
       return row.join(" ").toLowerCase().includes(term.toLowerCase());
     },
     performSearch(rows, term) {
-      console.log("Dalem Fungsi Performsearch");
       const results = this.searchFilter(rows, term);
-      console.log("Ini Results", results);
       return results;
     },
     renderList() {
       let searchList;
       this.searchInput != ""
-        ? (searchList = this.MoneyTrackers.filter((item) => {
+        ? (searchList = this.CRUDStore.transactions.filter((item) => {
             return item["title"]
               .toLowerCase()
               .includes(this.searchInput.toLowerCase());
           }))
-        : (searchList = this.MoneyTrackers);
+        : (searchList = this.CRUDStore.transactions);
       if (this.clickIndexName == "amount") {
         searchList.sort((a, b) => {
           if (this.sortDirection == true) {
@@ -223,9 +171,7 @@ export default {
       return searchList;
     },
     sortIndex(index) {
-      console.log("index", index);
       this.clickIndexName = index.split(" ").join("").toLowerCase();
-      console.log("KlikIndeks", this.clickIndexName);
 
       // If Descending
       if (this.sortDirection == true) {

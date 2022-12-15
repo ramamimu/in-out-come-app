@@ -1,20 +1,22 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
 import { useSocketIO } from "./stores/socket";
 import { Emitter } from "./config/setup";
+import { useCRUDStore } from "./stores/counter";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
     RouterLink,
     RouterView,
   },
-
   setup() {
     const SocketStore = useSocketIO();
-    return { SocketStore };
+    const CRUDStore = useCRUDStore();
+    return {
+      SocketStore,
+      CRUDStore,
+    };
   },
   async mounted() {
     console.log("async onMounted");
@@ -22,11 +24,14 @@ export default {
     this.SocketStore.emitUIToServer("test", { test: "test" });
     this.SocketStore.socket.on(Emitter.data2UI, (data) => {
       console.log("data2UI", data);
+      this.CRUDStore.transactions = [...data];
     });
     this.SocketStore.socket.on(Emitter.income, (data) => {
+      this.CRUDStore.incomes = [...data];
       console.log("income", data);
     });
     this.SocketStore.socket.on(Emitter.outcome, (data) => {
+      this.CRUDStore.outcomes = [...data];
       console.log("outcome", data);
     });
   },

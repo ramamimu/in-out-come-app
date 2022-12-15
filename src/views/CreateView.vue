@@ -282,7 +282,7 @@
 </template>
 
 <script>
-import { useCounterStore, useToolsStore } from "../stores/counter";
+import { useToolsStore } from "../stores/counter";
 import {
   MUTATION,
   PAYMENT_METHOD,

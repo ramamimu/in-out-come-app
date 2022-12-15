@@ -1,19 +1,5 @@
 import { defineStore } from "pinia";
 
-export const useCounterStore = defineStore("counter", {
-  state: () => {
-    return { count: 10, opoHayo: "rere" };
-  },
-  actions: {
-    increment() {
-      this.count++;
-    },
-    decrement() {
-      this.count--;
-    },
-  },
-});
-
 export const useToolsStore = defineStore("tools", {
   state: () => {
     return {};
@@ -26,5 +12,25 @@ export const useToolsStore = defineStore("tools", {
       }
       return null;
     },
+  },
+});
+
+export const useCRUDStore = defineStore({
+  id: "CRUD-Store",
+  state: () => ({
+    transactions: [],
+    incomes: [],
+    outcomes: [],
+  }),
+  actions: {
+    newTransaction(
+      inputTitle,
+      inputMutation,
+      inputDate,
+      inputCategory,
+      inputPaymentMethod
+    ) {},
+    deleteTransaction(id) {},
+    editTransaction(id) {},
   },
 });
