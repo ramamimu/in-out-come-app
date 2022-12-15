@@ -314,6 +314,7 @@
 
 <script>
 import { useToolsStore, useCRUDStore } from "../stores/counter";
+import { useToast } from "../stores/toast";
 import {
   MUTATION,
   PAYMENT_METHOD,
@@ -336,9 +337,11 @@ export default {
   setup() {
     const ToolsStore = useToolsStore();
     const CRUDStore = useCRUDStore();
+    const Toast = useToast();
     return {
       CRUDStore,
       ToolsStore,
+      Toast,
     };
   },
   watch: {
@@ -396,9 +399,19 @@ export default {
         }),
       };
 
-      await fetch("http://localhost:9090/add", requestOption).then((response) =>
-        console.log(response)
-      );
+      await fetch("http://localhost:9090/add", requestOption)
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            this.Toast.showToast("Transaction added successfully", true);
+          } else {
+            this.Toast.showToast("Failed to add transaction", false);
+          }
+        })
+        .catch((error) => {
+          this.Toast.addToast("Failed to add transaction", false);
+          console.log(error);
+        });
 
       this.reset();
     },

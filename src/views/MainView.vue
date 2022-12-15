@@ -76,6 +76,7 @@ import {
   OUTCOME_CATEGORY,
 } from "../stores/utils";
 import ApexChartVue from "../components/ApexChart.vue";
+import { useToast } from "../stores/toast";
 
 export default {
   name: "MainView",
@@ -105,9 +106,11 @@ export default {
   setup() {
     const ToolsStore = useToolsStore();
     const CRUDStore = useCRUDStore();
+    const TOAST_STATE = useToast();
     return {
       ToolsStore,
       CRUDStore,
+      TOAST_STATE,
     };
   },
   methods: {
@@ -167,7 +170,19 @@ export default {
           "Content-Type": "application/json",
         },
       };
-      fetch(link, requestOption).then((response) => console.log(response));
+      fetch(link, requestOption)
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            this.TOAST_STATE.showToast("Transaction Deleted", true);
+          } else {
+            this.TOAST_STATE.showToast("Failed to Delete Transaction", false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.TOAST_STATE.showToast("Failed to Delete Transaction", false);
+        });
     },
     titleSorter() {},
     searchFilter(row, term) {

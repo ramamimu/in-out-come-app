@@ -4,19 +4,24 @@ import { useSocketIO } from "./stores/socket";
 import { Emitter } from "./config/setup";
 import { useCRUDStore } from "./stores/counter";
 import HeaderVue from "./components/Header.vue";
+import ToastVue from "./components/Toast.vue";
+import { useToast } from "./stores/toast";
 
 export default {
   name: "App",
   components: {
     RouterView,
     HeaderVue,
+    ToastVue,
   },
   setup() {
     const SocketStore = useSocketIO();
     const CRUDStore = useCRUDStore();
+    const TOAST_STATE = useToast();
     return {
       SocketStore,
       CRUDStore,
+      TOAST_STATE,
     };
   },
   async mounted() {
@@ -40,6 +45,7 @@ export default {
 </script>
 
 <template>
+  <ToastVue v-if="TOAST_STATE.toast.status" />
   <header>
     <HeaderVue />
   </header>

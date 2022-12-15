@@ -314,6 +314,7 @@
 
 <script>
 import { useToolsStore, useCRUDStore } from "../stores/counter";
+import { useToast } from "../stores/toast";
 import {
   MUTATION,
   PAYMENT_METHOD,
@@ -336,9 +337,11 @@ export default {
   setup() {
     const CRUDStore = useCRUDStore();
     const ToolsStore = useToolsStore();
+    const Toast = useToast();
     return {
       ToolsStore,
       CRUDStore,
+      Toast,
     };
   },
   mounted() {
@@ -429,9 +432,15 @@ export default {
       };
       const id = this.$route.params.id;
       const link = "http://localhost:9090/edit?id=" + id;
-      await fetch(link, requestOption).then((response) =>
-        console.log(response)
-      );
+      await fetch(link, requestOption)
+        .then((response) => {
+          console.log(response);
+          this.Toast.showToast("Transaction edited successfully", true);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.Toast.showToast("Failed to edit transaction", false);
+        });
       this.$router.go(-1);
     },
   },
