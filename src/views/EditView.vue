@@ -1,282 +1,314 @@
 <template>
-  <h1>Edit Transaction</h1>
-  <button class="btn-back" @click="$router.go(-1)">Back</button>
-  <div class="form">
-    <form id="new-transaction-form" @submit.prevent="saveChanges()">
-      <div class="title-input">
-        <h3>Title</h3>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Add your transaction..."
-          v-model="input_title"
-          required
+  <div class="shadow-sm py-5">
+    <div class="container position-relative">
+      <h2 class="text-center">Edit Transaction</h2>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="hover:bg-gray-200 p-2 position-absolute top-0"
+        style="width: 50px; margin-right: 10px; cursor: pointer"
+        @click="$router.go(-1)"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
         />
+      </svg>
+      <!-- </button> -->
+      <div class="form mx-auto" style="max-width: 500px">
+        <form id="new-transaction-form" @submit.prevent="saveChanges()">
+          <div class="mb-2">
+            <h6>Title</h6>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Add your transaction..."
+              v-model="input_title"
+              required
+            />
+          </div>
+          <hr />
+          <div>
+            <h6>Mutation Type</h6>
+            <div class="mutation-type-input">
+              <label class="px-2"
+                ><input
+                  type="radio"
+                  name="mutation"
+                  id="mutation-income"
+                  value="Income"
+                  v-model="input_mutation"
+                  required
+                />
+                Income
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="mutation"
+                  id="mutation-outcome"
+                  value="Outcome"
+                  v-model="input_mutation"
+                  required
+                />
+                Outcome
+              </label>
+            </div>
+          </div>
+          <hr />
+          <div class="pb-2">
+            <h6>Date</h6>
+            <input
+              type="date"
+              name="date"
+              id="date"
+              v-model="input_date"
+              required
+            />
+          </div>
+          <hr />
+          <div>
+            <h6>How Much?</h6>
+            <input
+              type="amount"
+              name="amount"
+              id="amount"
+              placeholder="Amount of Money"
+              v-model="input_amount"
+              required
+            />
+          </div>
+          <hr />
+
+          <div v-if="input_mutation == 'Income'">
+            <h6>Income Category</h6>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-income"
+                value="Salary"
+                v-model="input_category"
+                required
+              />
+              <label>Salary</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-income"
+                value="Side Hustle"
+                v-model="input_category"
+                required
+              />
+              <label>Side Hustle</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-income"
+                value="Other"
+                v-model="input_category"
+                required
+              />
+              <label>Other</label>
+            </div>
+          </div>
+
+          <div v-if="input_mutation == 'Outcome'">
+            <h6>Outcome Category</h6>
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Food and Drink"
+                v-model="input_category"
+                required
+              />
+              <label>Food and Drink</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Rent"
+                v-model="input_category"
+                required
+              />
+              <label>Rent</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Transportation"
+                v-model="input_category"
+                required
+              />
+              <label>Transportation</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Subscription"
+                v-model="input_category"
+                required
+              />
+              <label>Subscription</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Internet"
+                v-model="input_category"
+                required
+              />
+              <label>Internet</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Grocery"
+                v-model="input_category"
+                required
+              />
+              <label>Grocery</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Entertainment"
+                v-model="input_category"
+                required
+              />
+              <label>Entertainment</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Clothing"
+                v-model="input_category"
+                required
+              />
+              <label>Clothing</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="category-outcome"
+                value="Furniture"
+                v-model="input_category"
+                required
+              />
+              <label>Furniture</label>
+            </div>
+          </div>
+          <hr />
+
+          <div class="pb-3">
+            <h6>Payment Type</h6>
+            <div>
+              <input
+                type="radio"
+                name="payment"
+                value="Bank Transfer"
+                v-model="input_paymentmethod"
+                required
+              />
+              <label> Transfer Bank</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="payment"
+                value="Cash"
+                v-model="input_paymentmethod"
+                required
+              />
+              <label>Cash</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="payment"
+                value="Dana"
+                v-model="input_paymentmethod"
+                required
+              />
+              <label>Dana</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="payment"
+                value="Shopee Pay"
+                v-model="input_paymentmethod"
+                required
+              />
+              <span class="bubble ShopeePay"></span>
+              <label>Shopee Pay</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="payment"
+                value="GoPay"
+                v-model="input_paymentmethod"
+                required
+              />
+              <label>GoPay</label>
+            </div>
+
+            <div>
+              <input
+                type="radio"
+                name="payment"
+                value="OVO"
+                v-model="input_paymentmethod"
+                required
+              />
+              <label>OVO</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
       </div>
-
-      <h3>Mutation Type</h3>
-      <div class="mutation-type-input">
-        <label>
-          <input
-            type="radio"
-            name="mutation"
-            id="mutation-income"
-            value="Income"
-            v-model="input_mutation"
-            required
-          />
-          <span class="bubble income"></span>
-          <div>Income</div>
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="mutation"
-            id="mutation-outcome"
-            value="Outcome"
-            v-model="input_mutation"
-            required
-          />
-          <span class="bubble outcome"></span>
-          <div>Outcome</div>
-        </label>
-      </div>
-
-      <div class="date-input">
-        <h3>Date</h3>
-        <input
-          type="date"
-          name="date"
-          id="date"
-          v-model="input_date"
-          required
-        />
-      </div>
-
-      <div class="amount-input">
-        <h3>How Much?</h3>
-        <input
-          type="amount"
-          name="amount"
-          id="amount"
-          placeholder="Amount of Money"
-          v-model="input_amount"
-          required
-        />
-      </div>
-
-      <div class="category-input" v-if="input_mutation == 'Income'">
-        <h3>Income Category</h3>
-        <br />
-        <input
-          type="radio"
-          name="category"
-          id="category-income"
-          value="Salary"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Salary"></span>
-        <div>Salary</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-income"
-          value="Side Hustle"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Side Hustle"></span>
-        <div>Side Hustle</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-income"
-          value="Other"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Other"></span>
-        <div>Other</div>
-      </div>
-
-      <div class="category-input" v-if="input_mutation == 'Outcome'">
-        <h3>Outcome Category</h3>
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Food and Drink"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Food and Drink"></span>
-        <div>Food and Drink</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Rent"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Rent"></span>
-        <div>Rent</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Transportation"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble transportation"></span>
-        <div>Transportation</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Subscription"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Subscription"></span>
-        <div>Subscription</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Internet"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Internet"></span>
-        <div>Internet</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Grocery"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Grocery"></span>
-        <div>Grocery</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Entertainment"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Entertainment"></span>
-        <div>Entertainment</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Clothing"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Clothing"></span>
-        <div>Clothing</div>
-
-        <input
-          type="radio"
-          name="category"
-          id="category-outcome"
-          value="Furniture"
-          v-model="input_category"
-          required
-        />
-        <span class="bubble Furniture"></span>
-        <div>Furniture</div>
-      </div>
-
-      <div class="payment-type-input">
-        <h3>Payment Type</h3>
-        <input
-          type="radio"
-          name="payment"
-          id="payment"
-          value="Bank Transfer"
-          v-model="input_paymentmethod"
-          required
-        />
-        <span class="bubble Bank Transfer"></span>
-        <div>Bank Transfer</div>
-
-        <input
-          type="radio"
-          name="payment"
-          id="payment"
-          value="Cash"
-          v-model="input_paymentmethod"
-          required
-        />
-        <span class="bubble Cash"></span>
-        <div>Cash</div>
-
-        <input
-          type="radio"
-          name="payment"
-          id="payment"
-          value="Dana"
-          v-model="input_paymentmethod"
-          required
-        />
-        <span class="bubble Dana"></span>
-        <div>Dana</div>
-
-        <input
-          type="radio"
-          name="payment"
-          id="payment"
-          value="Shopee Pay"
-          v-model="input_paymentmethod"
-          required
-        />
-        <span class="bubble ShopeePay"></span>
-        <div>Shopee Pay</div>
-
-        <input
-          type="radio"
-          name="payment"
-          id="payment"
-          value="GoPay"
-          v-model="input_paymentmethod"
-          required
-        />
-        <span class="bubble GoPay"></span>
-        <div>GoPay</div>
-
-        <input
-          type="radio"
-          name="payment"
-          id="payment"
-          value="OVO"
-          v-model="input_paymentmethod"
-          required
-        />
-        <span class="bubble OVO"></span>
-        <div>OVO</div>
-      </div>
-
-      <input type="submit" value="Save Changes" />
-    </form>
+    </div>
   </div>
 </template>
 
@@ -333,17 +365,18 @@ export default {
     },
     epochToDate(dateEpoch) {
       var myDate = new Date(Math.round(Number(dateEpoch)));
-
+      var month;
       if (myDate.getUTCMonth() + 1 < 10) {
-        var month = "0" + (myDate.getUTCMonth() + 1);
+        month = "0" + (myDate.getUTCMonth() + 1);
       } else {
-        var month = myDate.getUTCMonth() + 1;
+        month = myDate.getUTCMonth() + 1;
       }
 
+      var day;
       if (myDate.getUTCDate() < 10) {
-        var day = "0" + myDate.getUTCDate();
+        day = "0" + myDate.getUTCDate();
       } else {
-        var day = myDate.getUTCDate();
+        day = myDate.getUTCDate();
       }
       var formattedDate = myDate.getUTCFullYear() + "-" + month + "-" + day;
       return formattedDate;
@@ -396,7 +429,10 @@ export default {
       };
       const id = this.$route.params.id;
       const link = "http://localhost:9090/edit?id=" + id;
-      fetch(link, requestOption).then((response) => console.log(response));
+      await fetch(link, requestOption).then((response) =>
+        console.log(response)
+      );
+      this.$router.go(-1);
     },
   },
 };

@@ -2,31 +2,37 @@
   <div>
     <ApexChartVue></ApexChartVue>
   </div>
-  <h1>Money Mutation List</h1>
-  <!-- {{CRUDStore.transactions}} -->
-  <button class="btn-create" @click="$router.push('Create')">Create New</button>
-
-  <div class="Search-Bar">
-    <input
-      type="text"
-      class="Search-Box"
-      placeholder="Search records"
-      v-model="searchInput"
-    />
-  </div>
-
-  <h3>Date Filter</h3>
+  <hr />
+  <div></div>
+  <h4>Date Filter</h4>
   <input type="date" v-model="startDate" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-6 h-6 mx-2"
+    style="width: 20px"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+    />
+  </svg>
+
   <input type="date" v-model="endDate" />
 
-  <div class="shadow p-3 mb-5 bg-body rounded">
-    <table class="table table-sm align-middle mb-0 bg-white table-hover">
-      <thead class="bg-light">
+  <div class="shadow p-3 my-2 bg-body rounded">
+    <table class="table table-sm align-middle my-2 bg-white table-hover">
+      <thead class="bg-light py-5">
         <tr>
           <th
             v-for="(column, index) in columns"
             :key="index"
             class="table-header"
+            style="cursor: pointer"
             @click="sortIndex(column)"
           >
             {{ column }}
@@ -42,19 +48,17 @@
           <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
           <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
           <td>
-            <button class="btn btn-outline-primary"  @click="$router.push({ name: 'Edit', params: { id: item.id } })">
-              <i
-                class="fa fa-edit"
-                style="font-size: 20px"
-               
-              ></i>
+            <button
+              class="btn btn-outline-primary"
+              @click="$router.push({ name: 'Edit', params: { id: item.id } })"
+            >
+              <i class="fa fa-edit" style="font-size: 20px"></i>
             </button>
-            <button class="btn btn-outline-primary" @click="removeTransaction(item.id)">
-              <i
-                class="fa fa-remove"
-                style="font-size: 20px; color: red"
-          
-              ></i>
+            <button
+              class="btn btn-outline-primary"
+              @click="removeTransaction(item.id)"
+            >
+              <i class="fa fa-remove" style="font-size: 20px; color: red"></i>
             </button>
           </td>
         </tr>
@@ -135,17 +139,18 @@ export default {
     },
     convertDatetoText(epochDate) {
       var myDate = new Date(Math.round(Number(epochDate)));
-
+      var month;
       if (myDate.getUTCMonth() + 1 < 10) {
-        var month = "0" + (myDate.getUTCMonth() + 1);
+        month = "0" + (myDate.getUTCMonth() + 1);
       } else {
-        var month = myDate.getUTCMonth() + 1;
+        month = myDate.getUTCMonth() + 1;
       }
 
+      var day;
       if (myDate.getUTCDate() < 10) {
-        var day = "0" + myDate.getUTCDate();
+        day = "0" + myDate.getUTCDate();
       } else {
-        var day = myDate.getUTCDate();
+        day = myDate.getUTCDate();
       }
       var formattedDate = day + "/" + month + "/" + myDate.getUTCFullYear();
       return formattedDate;

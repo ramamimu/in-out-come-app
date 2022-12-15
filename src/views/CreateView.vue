@@ -318,10 +318,11 @@ export default {
   },
   methods: {
     saveCategory(mutation, category) {
+      var kategori;
       if (mutation == "Income") {
-        var kategori = INCOME_CATEGORY[category];
+        kategori = INCOME_CATEGORY[category];
       } else if (mutation == "Outcome") {
-        var kategori = OUTCOME_CATEGORY[category];
+        kategori = OUTCOME_CATEGORY[category];
       }
       return kategori;
     },
@@ -356,7 +357,7 @@ export default {
         }),
       };
 
-      fetch("http://localhost:9090/add", requestOption).then((response) =>
+      await fetch("http://localhost:9090/add", requestOption).then((response) =>
         console.log(response)
       );
     },
