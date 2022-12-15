@@ -16,39 +16,48 @@
   <input type="date" v-model="startDate" />
   <input type="date" v-model="endDate" />
 
-  <table>
-    <tbody>
-      <tr>
-        <th
-          v-for="(column, index) in columns"
-          :key="index"
-          class="table-header"
-          @click="sortIndex(column)"
-        >
-          {{ column }}
-        </th>
-      </tr>
-      <tr v-for="(item, index) in renderList()" :key="index" class="item-row">
-        <td>{{ item.title }}</td>
-        <td>{{ convertMutationToText(item.mutation) }}</td>
-        <td>{{ convertDatetoText(item.date) }}</td>
-        <td>Rp{{ moneyHandling(item.amount) }}</td>
-        <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
-        <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
-        <td>
-          <button
-            class="btn btn-success"
-            @click="$router.push({ name: 'Edit', params: { id: item.id } })"
+  <div class="shadow p-3 mb-5 bg-body rounded">
+    <table class="table table-sm align-middle mb-0 bg-white table-hover">
+      <thead class="bg-light">
+        <tr>
+          <th
+            v-for="(column, index) in columns"
+            :key="index"
+            class="table-header"
+            @click="sortIndex(column)"
           >
-            Edit
-          </button>
-          <button class="btn btn-danger" @click="removeTransaction(item.id)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            {{ column }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in renderList()" :key="index" class="item-row">
+          <td>{{ item.title }}</td>
+          <td>{{ convertMutationToText(item.mutation) }}</td>
+          <td>{{ convertDatetoText(item.date) }}</td>
+          <td>Rp{{ moneyHandling(item.amount) }}</td>
+          <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
+          <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
+          <td>
+            <button class="btn btn-outline-primary">
+              <i
+                class="fa fa-edit"
+                style="font-size: 20px"
+                @click="$router.push({ name: 'Edit', params: { id: item.id } })"
+              ></i>
+            </button>
+            <button class="btn btn-outline-primary">
+              <i
+                class="fa fa-remove"
+                style="font-size: 20px; color: red"
+                @click="removeTransaction(item.id)"
+              ></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -228,4 +237,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.table-fit {
+  width: 1px;
+}
+</style>
