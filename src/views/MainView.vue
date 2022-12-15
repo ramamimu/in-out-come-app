@@ -97,7 +97,6 @@ export default {
       sortColumn: "",
       sortDirection: true,
       // Sort direction default is true means descending, false means ascending
-      searchInput: "",
       clickIndexName: "title",
       startDate: "",
       endDate: "",
@@ -184,11 +183,11 @@ export default {
       let endDate = this.dateToEpoch(this.endDate);
 
       // Search Features
-      this.searchInput != ""
+      this.CRUDStore.searchTerm != ""
         ? (searchList = this.CRUDStore.transactions.filter((item) => {
             return item["title"]
               .toLowerCase()
-              .includes(this.searchInput.toLowerCase());
+              .includes(this.CRUDStore.searchTerm.toLowerCase());
           }))
         : (searchList = this.CRUDStore.transactions);
 
@@ -252,6 +251,6 @@ export default {
 
 <style>
 .table-fit {
-  width: 1px;
+  width: 5px;
 }
 </style>
