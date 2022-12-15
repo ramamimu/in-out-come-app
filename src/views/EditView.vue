@@ -1,6 +1,5 @@
 <template>
   <h1>Edit Transaction</h1>
-  <!-- {{CRUDStore.transactions}} -->
   <button class="btn-back" @click="$router.go(-1)">Back</button>
   <div class="form">
     <form id="new-transaction-form" @submit.prevent="saveChanges()">
@@ -289,8 +288,6 @@ import {
   INCOME_CATEGORY,
   OUTCOME_CATEGORY,
 } from "../stores/utils";
-import { db } from "../firebase/config";
-import { updateDoc, getDoc, doc } from "firebase/firestore";
 
 export default {
   name: "EditView",
@@ -332,64 +329,52 @@ export default {
       }
       return kategori;
     },
+    epochToDate(dateEpoch) {
+      var myDate = new Date(Math.round(Number(dateEpoch)));
+
+      if (myDate.getUTCMonth() + 1 < 10) {
+        var month = "0" + (myDate.getUTCMonth() + 1);
+      } else {
+        var month = myDate.getUTCMonth() + 1;
+      }
+
+      if (myDate.getUTCDate() < 10) {
+        var day = "0" + myDate.getUTCDate();
+      } else {
+        var day = myDate.getUTCDate();
+      }
+      var formattedDate = myDate.getUTCFullYear() + "-" + month + "-" + day;
+      return formattedDate;
+    },
     dateToEpoch(date) {
-      var parts = date.split("-");
-      var mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-      return mydate.getTime().toString();
+      var myDate = new Date(date);
+      var epoch = myDate.getTime();
+      return epoch;
     },
     async load() {
       try {
         const params_id = this.$route.params.id;
         this.CRUDStore.transactions.forEach((element) => {
           if (element.id == params_id) {
-            console.log(element);
             this.input_title = element.title;
-            this.input_date = this.dateToEpoch(element.date);
+            this.input_date = this.epochToDate(element.date).toString();
             console.log("elementdate", element.date);
-            console.log("inputdate", this.input_date);
-            this.input_mutation = element.mutation;
+            console.log("inputdate", this.input_date, typeof this.input_date);
+            this.input_mutation = this.ToolsStore.convertToText(
+              MUTATION,
+              element.mutation
+            );
             this.input_amount = element.amount;
-            this.input_category = element.category;
-            this.input_paymentmethod = element.paymentMethod;
+            this.input_category = this.checkMutationCategory(
+              element.mutation,
+              element.category
+            );
+            this.input_paymentmethod = this.ToolsStore.convertToText(
+              PAYMENT_METHOD,
+              element.paymentmethod
+            );
           }
         });
-        // const querySnapshot = await getDoc(doc(db, "MoneyTracker", id));
-
-        // let utcSeconds = querySnapshot.data().date;
-        // let d = new Date(parseInt(utcSeconds));
-
-        // this.input_title = querySnapshot.data().title;
-        // this.input_mutation = this.ToolsStore.convertToText(
-        //   MUTATION,
-        //   querySnapshot.data().mutation
-        // );
-
-        // if (d.getMonth() + 1 < 10) {
-        //   if (d.getDate() < 10) {
-        //     this.input_date =
-        //       d.getFullYear() + "-0" + (d.getMonth() + 1) + "-0" + d.getDate();
-        //   } else {
-        //     this.input_date =
-        //       d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" + d.getDate();
-        //   }
-        // } else {
-        //   if (d.getDate() < 10) {
-        //     this.input_date =
-        //       d.getFullYear() + "-" + (d.getMonth() + 1) + "-0" + d.getDate();
-        //   } else {
-        //     this.input_date =
-        //       d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-        //   }
-        // }
-        // this.input_amount = querySnapshot.data().amount;
-        // this.input_category = this.checkMutationCategory(
-        //   querySnapshot.data().mutation,
-        //   querySnapshot.data().category
-        // );
-        // this.input_paymentmethod = this.ToolsStore.convertToText(
-        //   PAYMENT_METHOD,
-        //   querySnapshot.data().paymentmethod
-        // );
       } catch (err) {
         console.log(err.message);
       }
@@ -407,26 +392,9 @@ export default {
           paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
         }),
       };
-
       const id = this.$route.params.id;
-
       const link = "http://localhost:9090/edit?id=" + id;
-
       fetch(link, requestOption).then((response) => console.log(response));
-
-      // try {
-      //   const id = this.$route.params.id;
-      //   await updateDoc(doc(db, "MoneyTracker", id), {
-      //     title: this.input_title,
-      //     date: this.dateToEpoch(this.input_date),
-      //     amount: parseInt(this.input_amount),
-      //     mutation: MUTATION[this.input_mutation],
-      //     category: this.saveCategory(this.input_mutation, this.input_category),
-      //     paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
-      //   });
-      // } catch (err) {
-      //   console.log(err.message);
-      // }
     },
   },
 };

@@ -1,6 +1,7 @@
 <template>
   <h1>Money Mutation List</h1>
   <!-- {{CRUDStore.transactions}} -->
+  {{ dateFilter }}
   <button class="btn-create" @click="$router.push('Create')">Create New</button>
   <div class="Search-Bar">
     <input
@@ -10,6 +11,9 @@
       v-model="searchInput"
     />
   </div>
+  <!-- <button class="btn-filterToday" @click="$router.push('Create')">Today</button>
+  <button class="btn-filterThisWeek" @click="$router.push('Create')">Last Week</button>
+  <button class="btn-filterThisMonth" @click="$router.push('Create')">Last Month</button> -->
   <table>
     <tbody>
       <tr>
@@ -23,10 +27,10 @@
         </th>
       </tr>
       <tr v-for="(item, index) in renderList()" :key="index" class="item-row">
-        <td>{{ item.title }}</td>
+        <td>{{ titleLowerCase(item.title) }}</td>
         <td>{{ convertMutationToText(item.mutation) }}</td>
         <td>{{ convertDatetoText(item.date) }}</td>
-        <td>Rp.{{ moneyHandling(item.amount) }}</td>
+        <td>Rp{{ moneyHandling(item.amount) }}</td>
         <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
         <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
         <td>
@@ -67,14 +71,13 @@ export default {
         "Payment Method",
         "Action",
       ],
-      MoneyTrackers: [],
-      rows: [],
       term: "",
       sortColumn: "",
       sortDirection: true,
       // Sort direction default is true means descending, false means ascending
       searchInput: "",
       clickIndexName: "title",
+      dateFilter: "",
     };
   },
   setup() {
@@ -84,9 +87,6 @@ export default {
       ToolsStore,
       CRUDStore,
     };
-  },
-  mounted() {
-    this.rows = [...this.MoneyTrackers];
   },
   methods: {
     checkMutationCategory(mutation, category) {
@@ -107,6 +107,9 @@ export default {
         (decimalPart ? "," + decimalPart : "")
       );
     },
+    titleLowerCase(word) {
+      return word.toLowerCase();
+    },
     stringChecker(word) {
       return Object.prototype.toString.call(word) === "[object String]";
     },
@@ -117,9 +120,21 @@ export default {
       return this.ToolsStore.convertToText(PAYMENT_METHOD, index);
     },
     convertDatetoText(epochDate) {
-      let utcSeconds = epochDate;
-      let d = new Date(parseInt(utcSeconds));
-      return d.toDateString();
+      var myDate = new Date(Math.round(Number(epochDate)));
+
+      if (myDate.getUTCMonth() + 1 < 10) {
+        var month = "0" + (myDate.getUTCMonth() + 1);
+      } else {
+        var month = myDate.getUTCMonth() + 1;
+      }
+
+      if (myDate.getUTCDate() < 10) {
+        var day = "0" + myDate.getUTCDate();
+      } else {
+        var day = myDate.getUTCDate();
+      }
+      var formattedDate = day + "/" + month + "/" + myDate.getUTCFullYear();
+      return formattedDate;
     },
     async removeTransaction(id) {
       const link = "http://localhost:9090/delete?id=" + id;
@@ -129,7 +144,6 @@ export default {
           "Content-Type": "application/json",
         },
       };
-
       fetch(link, requestOption).then((response) => console.log(response));
     },
     searchFilter(row, term) {
@@ -141,6 +155,7 @@ export default {
     },
     renderList() {
       let searchList;
+
       this.searchInput != ""
         ? (searchList = this.CRUDStore.transactions.filter((item) => {
             return item["title"]
@@ -177,7 +192,6 @@ export default {
     },
     sortIndex(index) {
       this.clickIndexName = index.split(" ").join("").toLowerCase();
-
       // If Descending
       if (this.sortDirection == true) {
         // Change to Ascending

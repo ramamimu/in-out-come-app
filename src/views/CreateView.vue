@@ -282,15 +282,13 @@
 </template>
 
 <script>
-import { useToolsStore } from "../stores/counter";
+import { useToolsStore, useCRUDStore } from "../stores/counter";
 import {
   MUTATION,
   PAYMENT_METHOD,
   INCOME_CATEGORY,
   OUTCOME_CATEGORY,
 } from "../stores/utils";
-import { db } from "../firebase/config";
-import { collection, addDoc } from "firebase/firestore";
 
 export default {
   name: "CreateView",
@@ -305,10 +303,10 @@ export default {
     };
   },
   setup() {
-    const CounterStore = useCounterStore();
     const ToolsStore = useToolsStore();
+    const CRUDStore = useCRUDStore();
     return {
-      CounterStore,
+      CRUDStore,
       ToolsStore,
     };
   },
@@ -361,18 +359,6 @@ export default {
       fetch("http://localhost:9090/add", requestOption).then((response) =>
         console.log(response)
       );
-      // try {
-      //   const doc = await addDoc(collection(db, "MoneyTracker"), {
-      //     title: this.input_title,
-      //     date: this.dateToEpoch(this.input_date),
-      //     mutation: MUTATION[this.input_mutation],
-      //     amount: parseInt(this.input_amount),
-      //     category: this.saveCategory(this.input_mutation, this.input_category),
-      //     paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
-      //   });
-      // } catch (err) {
-      //   console.log(err.message);
-      // }
     },
   },
 };
