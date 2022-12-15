@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <ApexChartVue></ApexChartVue>
+  </div>
   <h1>Money Mutation List</h1>
   <!-- {{CRUDStore.transactions}} -->
   <button class="btn-create" @click="$router.push('Create')">Create New</button>
@@ -68,9 +71,13 @@ import {
   INCOME_CATEGORY,
   OUTCOME_CATEGORY,
 } from "../stores/utils";
+import ApexChartVue from "../components/ApexChart.vue";
 
 export default {
   name: "MainView",
+  components: {
+    ApexChartVue,
+  },
   data() {
     return {
       columns: [
@@ -102,10 +109,11 @@ export default {
   },
   methods: {
     checkMutationCategory(mutation, category) {
+      let cek;
       if (mutation == 0) {
-        var cek = this.ToolsStore.convertToText(INCOME_CATEGORY, category);
+        cek = this.ToolsStore.convertToText(INCOME_CATEGORY, category);
       } else {
-        var cek = this.ToolsStore.convertToText(OUTCOME_CATEGORY, category);
+        cek = this.ToolsStore.convertToText(OUTCOME_CATEGORY, category);
       }
       return cek;
     },
@@ -233,6 +241,9 @@ export default {
         this.sortDirection = true;
       }
     },
+  },
+  updated() {
+    this.rows = [...this.MoneyTrackers];
   },
 };
 </script>

@@ -314,18 +314,20 @@ export default {
   },
   methods: {
     checkMutationCategory(mutation, category) {
+      let cek;
       if (mutation == 0) {
-        var cek = this.ToolsStore.convertToText(INCOME_CATEGORY, category);
+        cek = this.ToolsStore.convertToText(INCOME_CATEGORY, category);
       } else {
-        var cek = this.ToolsStore.convertToText(OUTCOME_CATEGORY, category);
+        cek = this.ToolsStore.convertToText(OUTCOME_CATEGORY, category);
       }
       return cek;
     },
     saveCategory(mutation, category) {
+      let kategori;
       if (mutation == "Income") {
-        var kategori = INCOME_CATEGORY[category];
+        kategori = INCOME_CATEGORY[category];
       } else if (mutation == "Outcome") {
-        var kategori = OUTCOME_CATEGORY[category];
+        kategori = OUTCOME_CATEGORY[category];
       }
       return kategori;
     },

@@ -35,8 +35,10 @@ export class WebSocket {
     const THAT = this;
     let temp = [];
     THAT.data.forEach((item) => {
-      temp.push({ ...item, date: new Date(parseInt(item.date)) });
+      temp.push({ ...item });
     });
+
+    // console.log(temp);
 
     if (index == 0) {
       temp = temp.filter((item) => item.mutation === 0);
@@ -48,17 +50,29 @@ export class WebSocket {
     let dailyIncome = [];
     temp.forEach((item) => {
       let date = item.date;
+      // console.log(typeof date);
+      // console.log(typeof item.date);
+      // console.log(new Date(parseInt(date)).getDate());
       let amount = item.amount;
       let index = dailyIncome.findIndex((item) => {
+        // console.log(item.date);
+        // console.log(item.date, new Date(parseInt(date)).getFullYear());
         return (
-          item.date.getDate() === date.getDate() &&
-          item.date.getMonth() === date.getMonth() &&
-          item.date.getFullYear() === date.getFullYear()
+          // new Date(parseInt(item.date)).getDate() ===
+          //   new Date(parseInt(date)).getDate() &&
+          // new Date(parseInt(item.date)).getMonth() ===
+          //   new Date(parseInt(date)).getMonth() &&
+          item.date == new Date(parseInt(date)).getFullYear()
         );
       });
+      // new Date(item.date).getDate() === date.getDate() &&
+      // item.date.getMonth() === date.getMonth() &&
+      // item.date.getFullYear() === date.getFullYear()
+      // console.log(typeof date);
+      // console.log(index);
       if (index === -1) {
         dailyIncome.push({
-          date: date,
+          date: new Date(parseInt(date)).getFullYear(),
           amount: amount,
         });
       } else {
@@ -66,7 +80,8 @@ export class WebSocket {
       }
     });
 
-    console.log(dailyIncome);
+    // console.log(dailyIncome);
     return dailyIncome;
+    // return 0;
   }
 }

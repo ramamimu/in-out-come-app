@@ -1,14 +1,15 @@
 <script>
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 import { useSocketIO } from "./stores/socket";
 import { Emitter } from "./config/setup";
 import { useCRUDStore } from "./stores/counter";
+import HeaderVue from "./components/Header.vue";
 
 export default {
   name: "App",
   components: {
-    RouterLink,
     RouterView,
+    HeaderVue,
   },
   setup() {
     const SocketStore = useSocketIO();
@@ -40,10 +41,7 @@ export default {
 
 <template>
   <header>
-    <nav>
-      <!-- <RouterLink to="/">Main</RouterLink>
-        <RouterLink to="/about">About</RouterLink> -->
-    </nav>
+    <HeaderVue />
   </header>
 
   <RouterView />
