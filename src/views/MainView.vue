@@ -42,18 +42,18 @@
           <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
           <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
           <td>
-            <button class="btn btn-outline-primary">
+            <button class="btn btn-outline-primary"  @click="$router.push({ name: 'Edit', params: { id: item.id } })">
               <i
                 class="fa fa-edit"
                 style="font-size: 20px"
-                @click="$router.push({ name: 'Edit', params: { id: item.id } })"
+               
               ></i>
             </button>
-            <button class="btn btn-outline-primary">
+            <button class="btn btn-outline-primary" @click="removeTransaction(item.id)">
               <i
                 class="fa fa-remove"
                 style="font-size: 20px; color: red"
-                @click="removeTransaction(item.id)"
+          
               ></i>
             </button>
           </td>
@@ -241,9 +241,6 @@ export default {
         this.sortDirection = true;
       }
     },
-  },
-  updated() {
-    this.rows = [...this.MoneyTrackers];
   },
 };
 </script>
