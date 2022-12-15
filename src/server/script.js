@@ -10,7 +10,7 @@ const colRef = collection(db, "MoneyTracker");
 onSnapshot(colRef, (querySnapshot) => {
   let temp = [];
   querySnapshot.docs.forEach((doc) => {
-    console.log(doc.id, " => ", doc.data());
+    // console.log(doc.id, " => ", doc.data());
     temp.push({ id: doc.id, ...doc.data() });
   });
   IO.data = temp;

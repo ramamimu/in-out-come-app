@@ -23,14 +23,11 @@ export const useCRUDStore = defineStore({
     outcomes: [],
   }),
   actions: {
-    newTransaction(
-      inputTitle,
-      inputMutation,
-      inputDate,
-      inputCategory,
-      inputPaymentMethod
-    ) {},
-    deleteTransaction(id) {},
-    editTransaction(id) {},
+    newTransaction() {},
+    deleteTransaction() {},
+    editTransaction() {},
+    getYear(epoch) {
+      return new Date(epoch).getFullYear();
+    },
   },
 });
