@@ -1,8 +1,8 @@
 <template>
   <h1>Money Mutation List</h1>
   <!-- {{CRUDStore.transactions}} -->
-  {{ dateFilter }}
   <button class="btn-create" @click="$router.push('Create')">Create New</button>
+
   <div class="Search-Bar">
     <input
       type="text"
@@ -11,9 +11,11 @@
       v-model="searchInput"
     />
   </div>
-  <!-- <button class="btn-filterToday" @click="$router.push('Create')">Today</button>
-  <button class="btn-filterThisWeek" @click="$router.push('Create')">Last Week</button>
-  <button class="btn-filterThisMonth" @click="$router.push('Create')">Last Month</button> -->
+
+  <h3>Date Filter</h3>
+  <input type="date" v-model="startDate" />
+  <input type="date" v-model="endDate" />
+
   <table>
     <tbody>
       <tr>
@@ -27,7 +29,7 @@
         </th>
       </tr>
       <tr v-for="(item, index) in renderList()" :key="index" class="item-row">
-        <td>{{ titleLowerCase(item.title) }}</td>
+        <td>{{ item.title }}</td>
         <td>{{ convertMutationToText(item.mutation) }}</td>
         <td>{{ convertDatetoText(item.date) }}</td>
         <td>Rp{{ moneyHandling(item.amount) }}</td>
@@ -77,7 +79,8 @@ export default {
       // Sort direction default is true means descending, false means ascending
       searchInput: "",
       clickIndexName: "title",
-      dateFilter: "",
+      startDate: "",
+      endDate: "",
     };
   },
   setup() {
@@ -107,12 +110,6 @@ export default {
         (decimalPart ? "," + decimalPart : "")
       );
     },
-    titleLowerCase(word) {
-      return word.toLowerCase();
-    },
-    stringChecker(word) {
-      return Object.prototype.toString.call(word) === "[object String]";
-    },
     convertMutationToText(index) {
       return this.ToolsStore.convertToText(MUTATION, index);
     },
@@ -136,6 +133,11 @@ export default {
       var formattedDate = day + "/" + month + "/" + myDate.getUTCFullYear();
       return formattedDate;
     },
+    dateToEpoch(date) {
+      var parts = date.split("-");
+      var mydate = new Date(parts[0], parts[1] - 1, parts[2]);
+      return mydate.getTime().toString();
+    },
     async removeTransaction(id) {
       const link = "http://localhost:9090/delete?id=" + id;
       const requestOption = {
@@ -146,6 +148,7 @@ export default {
       };
       fetch(link, requestOption).then((response) => console.log(response));
     },
+    titleSorter() {},
     searchFilter(row, term) {
       return row.join(" ").toLowerCase().includes(term.toLowerCase());
     },
@@ -155,7 +158,10 @@ export default {
     },
     renderList() {
       let searchList;
+      let startDate = this.dateToEpoch(this.startDate);
+      let endDate = this.dateToEpoch(this.endDate);
 
+      // Search Features
       this.searchInput != ""
         ? (searchList = this.CRUDStore.transactions.filter((item) => {
             return item["title"]
@@ -163,6 +169,8 @@ export default {
               .includes(this.searchInput.toLowerCase());
           }))
         : (searchList = this.CRUDStore.transactions);
+
+      // Sorting Features
       if (this.clickIndexName == "amount") {
         searchList.sort((a, b) => {
           if (this.sortDirection == true) {
@@ -171,6 +179,12 @@ export default {
             return b.amount - a.amount;
           }
         });
+      } else if (this.clickIndexName == "title") {
+        if (this.sortDirection == true) {
+          searchList.sort((a, b) => a.title.localeCompare(b.title));
+        } else if (this.sortDirection == false) {
+          searchList.sort((a, b) => b.title.localeCompare(a.title));
+        }
       } else {
         searchList.sort((a, b) => {
           if (this.sortDirection == true) {
@@ -186,6 +200,13 @@ export default {
               return 1;
             }
           }
+        });
+      }
+
+      // Date Filter
+      if (startDate != "NaN" && endDate != "NaN") {
+        searchList = searchList.filter((item) => {
+          return item["date"] >= startDate && item["date"] <= endDate;
         });
       }
       return searchList;

@@ -22,15 +22,5 @@ export const useCRUDStore = defineStore({
     incomes: [],
     outcomes: [],
   }),
-  actions: {
-    newTransaction(
-      inputTitle,
-      inputMutation,
-      inputDate,
-      inputCategory,
-      inputPaymentMethod
-    ) {},
-    deleteTransaction(id) {},
-    editTransaction(id) {},
-  },
+  actions: {},
 });

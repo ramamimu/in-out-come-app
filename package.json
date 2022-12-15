@@ -10,8 +10,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "prettier:fix": "prettier --write .",
     "server": "nodemon ./src/server/script.js",
-    "mix": "concurrently --kill-others \"npm run server\" \"npm run dev\"",
-    "tes": "npm run server && npm run dev"
+    "mix": "concurrently --kill-others \"npm run server\" \"npm run dev\""
   },
   "dependencies": {
     "body-parser": "^1.20.1",
