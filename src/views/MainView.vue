@@ -2,19 +2,7 @@
   <div>
     <ApexChartVue></ApexChartVue>
   </div>
-  <h1>Money Mutation List</h1>
   <!-- {{CRUDStore.transactions}} -->
-  <button class="btn-create" @click="$router.push('Create')">Create New</button>
-
-  <div class="Search-Bar">
-    <input
-      type="text"
-      class="Search-Box"
-      placeholder="Search records"
-      v-model="searchInput"
-    />
-  </div>
-
   <h3>Date Filter</h3>
   <input type="date" v-model="startDate" />
   <input type="date" v-model="endDate" />
@@ -42,19 +30,17 @@
           <td>{{ checkMutationCategory(item.mutation, item.category) }}</td>
           <td>{{ convertPaymentMethodToText(item.paymentmethod) }}</td>
           <td>
-            <button class="btn btn-outline-primary"  @click="$router.push({ name: 'Edit', params: { id: item.id } })">
-              <i
-                class="fa fa-edit"
-                style="font-size: 20px"
-               
-              ></i>
+            <button
+              class="btn btn-outline-primary"
+              @click="$router.push({ name: 'Edit', params: { id: item.id } })"
+            >
+              <i class="fa fa-edit" style="font-size: 20px"></i>
             </button>
-            <button class="btn btn-outline-primary" @click="removeTransaction(item.id)">
-              <i
-                class="fa fa-remove"
-                style="font-size: 20px; color: red"
-          
-              ></i>
+            <button
+              class="btn btn-outline-primary"
+              @click="removeTransaction(item.id)"
+            >
+              <i class="fa fa-remove" style="font-size: 20px; color: red"></i>
             </button>
           </td>
         </tr>
@@ -93,7 +79,6 @@ export default {
       sortColumn: "",
       sortDirection: true,
       // Sort direction default is true means descending, false means ascending
-      searchInput: "",
       clickIndexName: "title",
       startDate: "",
       endDate: "",
@@ -179,11 +164,11 @@ export default {
       let endDate = this.dateToEpoch(this.endDate);
 
       // Search Features
-      this.searchInput != ""
+      this.CRUDStore.searchTerm != ""
         ? (searchList = this.CRUDStore.transactions.filter((item) => {
             return item["title"]
               .toLowerCase()
-              .includes(this.searchInput.toLowerCase());
+              .includes(this.CRUDStore.searchTerm.toLowerCase());
           }))
         : (searchList = this.CRUDStore.transactions);
 
@@ -247,6 +232,6 @@ export default {
 
 <style>
 .table-fit {
-  width: 1px;
+  width: 5px;
 }
 </style>

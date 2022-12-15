@@ -21,6 +21,7 @@ export const useCRUDStore = defineStore({
     transactions: [],
     incomes: [],
     outcomes: [],
+    searchTerm: "",
   }),
   actions: {},
 });
