@@ -409,7 +409,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.Toast.addToast("Failed to add transaction", false);
+          this.Toast.showToast("Failed to add transaction", false);
           console.log(error);
         });
 

@@ -37,15 +37,28 @@ IO.socket.of("/chart").on("connection", (socket) => {
 
 // localhost:9090/add
 IO.APP.post("/add", async (req, res) => {
-  await addData(req.body, res);
+  try {
+    await addData(req.body, res);
+  } catch (err) {
+    console.log(err);
+  }
+  // await addData(req.body, res);
 });
 
 // localhost:9090/edit?id="20123802010"
 IO.APP.put("/edit", async (req, res) => {
-  await editData(req.query.id, req.body, res);
+  try {
+    await editData(req.query.id, req.body, res);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // localhost:9090/delete?id="20123802010"
 IO.APP.delete("/delete", async (req, res) => {
-  await deleteData(req.query.id, res);
+  try {
+    await deleteData(req.query.id, res);
+  } catch (err) {
+    console.log(err);
+  }
 });
