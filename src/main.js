@@ -4,12 +4,9 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 
-// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-// import {} from "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
-
-import "../dist/bootstrap/css/bootstrap.min.css";
-import "../dist/bootstrap/css/dataTables.bootstrap.min.css";
-import {} from "../dist/bootstrap/js/bootstrap.bundle.min.js";
+import "./bootstrap/css/bootstrap.min.css";
+import "./bootstrap/css/dataTables.bootstrap.min.css";
+import {} from "./bootstrap/js/bootstrap.bundle.min.js";
 import VueApexCharts from "vue3-apexcharts";
 
 import "./assets/main.css";
