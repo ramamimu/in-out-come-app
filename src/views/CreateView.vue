@@ -128,7 +128,7 @@
 
           <div v-if="input_mutation == 'Outcome'">
             <h6>Outcome Category</h6>
-            <div>
+            <!-- <div>
               <input
                 type="radio"
                 name="category"
@@ -138,7 +138,7 @@
                 required
               />
               <label>Food and Drink</label>
-            </div>
+            </div> -->
 
             <div>
               <input
@@ -398,6 +398,7 @@ export default {
           paymentmethod: PAYMENT_METHOD[this.input_paymentmethod],
         }),
       };
+      console.log("add transaction", requestOption);
 
       await fetch("http://localhost:9090/add", requestOption)
         .then((response) => {

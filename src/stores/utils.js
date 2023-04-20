@@ -19,7 +19,7 @@ export const INCOME_CATEGORY = {
 };
 
 export const OUTCOME_CATEGORY = {
-  "Food And Drink": 0,
+  "Food and Drink": 0,
   Rent: 1,
   Transportation: 2,
   Subscription: 3,

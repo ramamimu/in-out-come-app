@@ -128,7 +128,7 @@
 
           <div v-if="input_mutation == 'Outcome'">
             <h6>Outcome Category</h6>
-            <div>
+            <!-- <div>
               <input
                 type="radio"
                 name="category"
@@ -138,7 +138,7 @@
                 required
               />
               <label>Food and Drink</label>
-            </div>
+            </div> -->
 
             <div>
               <input

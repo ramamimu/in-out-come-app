@@ -9,6 +9,7 @@ import { db } from "../firebase/config.js";
 import { cllctFirestore } from "../config/setup.js";
 
 export const addData = async (data, response) => {
+  console.log(data);
   await addDoc(collection(db, cllctFirestore), {
     amount: data.amount,
     category: data.category,
