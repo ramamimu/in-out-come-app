@@ -1,11 +1,6 @@
-FROM node:16-alpine3.13
+FROM nginx
 
-RUN mkdir -p /root/app
-WORKDIR /root/app
-COPY . /root/app
-RUN node -v
-RUN npm install
-RUN ls -a /root/app
-CMD [ "npm", "run", "dev" ]
+COPY dist /usr/share/nginx/html
+RUN ls -a /usr/share/nginx/html
 
-EXPOSE 3000
+EXPOSE 80
