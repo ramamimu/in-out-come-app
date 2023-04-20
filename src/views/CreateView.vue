@@ -380,7 +380,7 @@ export default {
     },
     dateToEpoch(date) {
       var parts = date.split("-");
-      var mydate = new Date(parts[0], parts[1] - 1, parts[2]);
+      var mydate = new Date(parts[0], parts[1], parts[2]);
       return mydate.getTime().toString();
     },
     async addTransaction() {
