@@ -5,8 +5,8 @@ import {
   collection,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../firebase/config.js";
-import { cllctFirestore } from "../config/setup.js";
+import { db } from "./firebase/config.js";
+import { cllctFirestore } from "./config/setup.js";
 
 export const addData = async (data, response) => {
   console.log(data);

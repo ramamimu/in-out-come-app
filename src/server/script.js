@@ -1,7 +1,7 @@
 import { WebSocket } from "./WebSocket.js";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase/config.js";
-import { Emitter } from "../config/setup.js";
+import { db } from "./firebase/config.js";
+import { Emitter } from "./config/setup.js";
 import { addData, deleteData, editData } from "./FireTools.js";
 
 const IO = new WebSocket();

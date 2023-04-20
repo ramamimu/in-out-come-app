@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import Express from "express";
 import Http from "http";
-import { port_web_socket } from "../config/setup.js";
+import { port_web_socket } from "./config/setup.js";
 import cors from "cors";
 
 export class WebSocket {
