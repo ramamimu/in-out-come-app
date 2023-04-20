@@ -163,7 +163,7 @@ export default {
       return mydate.getTime().toString();
     },
     async removeTransaction(id) {
-      const link = "http://localhost:9090/delete?id=" + id;
+      const link = `http://${window.location.hostname}:9090/delete?id=` + id;
       const requestOption = {
         method: "DELETE",
         headers: {

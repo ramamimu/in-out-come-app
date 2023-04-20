@@ -8,9 +8,7 @@ export const useSocketIO = defineStore("socketIO  ", {
   }),
   actions: {
     setupSocketConnection() {
-      this.socket = io(
-        `http://${window.location.hostname}:${port_web_socket}/chart`
-      );
+      this.socket = io(`${window.location.hostname}:${port_web_socket}/chart`);
     },
     emitUIToServer(emitter, data) {
       const THAT = this;
