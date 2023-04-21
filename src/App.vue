@@ -24,14 +24,16 @@ export default {
       TOAST_STATE,
     };
   },
+  async beforeMount() {
+    console.log("async beforeMount");
+    await this.SocketStore.setupSocketConnection();
+  },
   async mounted() {
     console.log("async onMounted");
     console.log("window location => ", window.location.host);
     console.log("window location hostname => ", window.location.hostname);
     console.log("env => ", import.meta.env.VITE_ADDR_DEP);
 
-    await this.SocketStore.setupSocketConnection();
-    await this.SocketStore.emitUIToServer("test", { test: "test" });
     this.SocketStore.socket.on(Emitter.data2UI, (data) => {
       console.log("data2UI", data);
       this.CRUDStore.transactions = [...data];
