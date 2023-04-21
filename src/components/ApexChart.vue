@@ -204,7 +204,6 @@ export default {
   },
   methods: {
     dynamicGraphic() {
-      console.log("Change");
       let tempIncomesX = [];
       let tempOutcomesX = [];
       let tempIncomesData = [];
