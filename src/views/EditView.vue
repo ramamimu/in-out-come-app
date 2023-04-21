@@ -431,7 +431,7 @@ export default {
         }),
       };
       const id = this.$route.params.id;
-      const link = `http://${window.location.hostname}:9090/edit?id=` + id;
+      const link = `http://${window.location.host}:9090/edit?id=` + id;
       await fetch(link, requestOption)
         .then((response) => {
           console.log(response);

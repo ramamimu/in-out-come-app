@@ -400,7 +400,7 @@ export default {
       };
       console.log("add transaction", requestOption);
 
-      await fetch(`http://${window.location.hostname}:9090/add`, requestOption)
+      await fetch(`http://${window.location.host}:9090/add`, requestOption)
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
