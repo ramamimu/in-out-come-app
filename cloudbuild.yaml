@@ -10,6 +10,11 @@ steps:
     args:
       - "push"
       - "gcr.io/$PROJECT_ID/socketio"
-
-images:
-  - "gcr.io/$PROJECT_ID/socketio"
+  # deploy to GKE cluster
+  - name: "gcr.io/cloud-builders/kubectl"
+    args:
+      - "set"
+      - "image"
+      - "deployment/socketio"
+      - "socketio=gcr.io/$PROJECT_ID/socketio"
+      - "--namespace=socketio"
