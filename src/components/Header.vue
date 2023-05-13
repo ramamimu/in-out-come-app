@@ -2,7 +2,7 @@
 <template>
   <div class="border-bottom pb-3 px-5 mb-3 shadow-sm">
     <div class="d-flex justify-content-between">
-      <h2>Money Tracker Apps</h2>
+      <h2>Hello Bangg</h2>
       <div class="d-flex gap-2">
         <input
           style="width: 180px"

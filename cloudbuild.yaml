@@ -14,14 +14,8 @@ steps:
       - --filename=deployment.yaml
       - --location=asia-southeast2-a
       - --cluster=socket-cluster
-      - --image=gcr.io/$PROJECT_ID/my-image
+      - --image=gcr.io/$PROJECT_ID/my-image:latest
       - --namespace=default
-  # apply service
-  - name: "gcr.io/cloud-builders/kubectl"
-    args:
-      - "apply"
-      - "-f"
-      - "service.yaml"
 
 images:
   - "gcr.io/$PROJECT_ID/my-image:latest"
