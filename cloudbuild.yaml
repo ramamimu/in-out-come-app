@@ -6,7 +6,7 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/my-image:$COMMIT_SHA"]
   # create cluster
-  - name: "gcr.io/cloud-builders/gcloud"
+  - name: "gcr.io/$PROJECT_ID/gcloud"
     args:
       - "container"
       - "clusters"
@@ -17,13 +17,13 @@ steps:
       - "--num-nodes"
       - "1"
   # apply deployment settings
-  - name: "gcr.io/cloud-builders/kubectl"
+  - name: "gcr.io/$PROJECT_ID/kubectl"
     args:
       - "apply"
       - "-f"
       - "deployment.yaml"
   # apply service settings
-  - name: "gcr.io/cloud-builders/kubectl"
+  - name: "gcr.io/$PROJECT_ID/kubectl"
     args:
       - "apply"
       - "-f"
