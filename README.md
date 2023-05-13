@@ -15,15 +15,9 @@ kubectl get services
 
 # Problem
 
-[] create cluster manually
-
 [] cannot automatically create cluster
 
-[] apply service manually
-
 [] cannot apply -f service.yaml
-
-[] web view been deployed not changed
 
 # To Do
 

@@ -17,3 +17,18 @@ spec:
           image: gcr.io/dcdingprject/my-image:latest
           ports:
             - containerPort: 80
+
+# service load balancer configuration
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-app
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
