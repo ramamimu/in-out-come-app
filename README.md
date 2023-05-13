@@ -17,6 +17,10 @@ kubectl get services
 
 [] create cluster manually
 
+[] cannot automatically create cluster
+
+[] apply service manually
+
 [] cannot apply -f service.yaml
 
 [] web view been deployed not changed
@@ -30,3 +34,7 @@ kubectl get services
 - push image to container registry
 
 - ? apply cluster
+
+- create cluster manually
+
+- create service manually
