@@ -1,10 +1,10 @@
 steps:
   # build image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/my-image:$COMMIT_SHA", "."]
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/my-image", "."]
   # push image to container registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/my-image:$COMMIT_SHA"]
+    args: ["push", "gcr.io/$PROJECT_ID/my-image"]
   # create cluster
   # - name: "gcr.io/cloud-builders/gcloud"
   #   args:
@@ -22,7 +22,7 @@ steps:
       - --filename=deployment.yaml
       - --location=asia-southeast2-a
       - --cluster=socket-cluster
-      - --image=gcr.io/$PROJECT_ID/my-image:$COMMIT_SHA
+      - --image=gcr.io/$PROJECT_ID/my-image
       - --namespace=default
   # apply deployment settings
   # - name: "gcr.io/cloud-builders/kubectl"
