@@ -6,24 +6,32 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/my-image:$COMMIT_SHA"]
   # create cluster
-  - name: "gcr.io/$PROJECT_ID/gcloud"
+  # - name: "gcr.io/cloud-builders/gcloud"
+  #   args:
+  #     - "container"
+  #     - "clusters"
+  #     - "create"
+  #     - "socket-cluster"
+  #     - "--zone"
+  #     - "asia-southeast2-a"
+  #     - "--num-nodes"
+  #     - "1"
+  - name: "gcr.io/cloud-builders/gke-deploy"
     args:
-      - "container"
-      - "clusters"
-      - "create"
-      - "socket-cluster"
-      - "--zone"
-      - "asia-southeast2-a"
-      - "--num-nodes"
-      - "1"
+      - run
+      - --filename=deployment.yaml
+      - --location=asia-southeast2-a
+      - --cluster=socket-cluster
+      - --image=gcr.io/$PROJECT_ID/my-image:$COMMIT_SHA
+      - --namespace=default
   # apply deployment settings
-  - name: "gcr.io/$PROJECT_ID/kubectl"
-    args:
-      - "apply"
-      - "-f"
-      - "deployment.yaml"
+  # - name: "gcr.io/cloud-builders/kubectl"
+  #   args:
+  #     - "apply"
+  #     - "-f"
+  #     - "deployment.yaml"
   # apply service settings
-  - name: "gcr.io/$PROJECT_ID/kubectl"
+  - name: "gcr.io/cloud-builders/kubectl"
     args:
       - "apply"
       - "-f"
