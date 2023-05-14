@@ -7,15 +7,15 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/my-image:latest"]
 
-  # apply cluster and service
-  - name: "gcr.io/cloud-builders/gke-deploy"
+  # apply cluster configuration
+  - name: "gcr.io/cloud-builders/kubectl"
     args:
-      - run
-      - --filename=deployment.yaml
-      - --location=$_REGION
-      - --cluster=$_CLUSTER
-      - --image=gcr.io/$PROJECT_ID/my-image:latest
-      - --namespace=default
+      - "apply"
+      - "-f"
+      - "deployment.yaml"
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=$_REGION"
+      - "CLOUDSDK_CONTAINER_CLUSTER=$_CLUSTER"
 
   # apply service configuration
   - name: "gcr.io/cloud-builders/kubectl"
@@ -23,6 +23,9 @@ steps:
       - "apply"
       - "-f"
       - "service.yaml"
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=$_REGION"
+      - "CLOUDSDK_CONTAINER_CLUSTER=$_CLUSTER"
 
 images:
   - "gcr.io/$PROJECT_ID/my-image"

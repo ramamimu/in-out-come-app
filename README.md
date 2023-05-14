@@ -1,7 +1,7 @@
 # Kubernetes deployment
 
 ```sh
-gcloud builds submit --tag gcr.io/$PROJECT_ID/shell-image .
+gcloud builds submit --tag gcr.io/$PROJECT_ID/$IMAGE_NAME .
 
 gcloud container clusters create $CLUSTER_NAME --num-nodes 1 --zone $ZONE_NAME
 kubectl get nodes
