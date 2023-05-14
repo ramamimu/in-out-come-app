@@ -14,7 +14,7 @@ steps:
       - "-f"
       - "deployment.yaml"
     env:
-      - "CLOUDSDK_COMPUTE_ZONE=$_REGION"
+      - "CLOUDSDK_COMPUTE_ZONE=$_ZONE"
       - "CLOUDSDK_CONTAINER_CLUSTER=$_CLUSTER"
 
   # apply service configuration
@@ -24,7 +24,7 @@ steps:
       - "-f"
       - "service.yaml"
     env:
-      - "CLOUDSDK_COMPUTE_ZONE=$_REGION"
+      - "CLOUDSDK_COMPUTE_ZONE=$_ZONE"
       - "CLOUDSDK_CONTAINER_CLUSTER=$_CLUSTER"
 
 images:
