@@ -1,14 +1,21 @@
-# Kubernetes deployment
+# Kubernetes Deployment
 
 ```sh
+# reserve IP addresses
+gcloud compute addresses create $ADDRESS_NAME --region $REGION_NAME
+
+# build image
 gcloud builds submit --tag gcr.io/$PROJECT_ID/$IMAGE_NAME .
 
-gcloud container clusters create $CLUSTER_NAME --num-nodes 1 --zone $ZONE_NAME
+# create cluster
+gcloud container clusters create $CLUSTER_NAME --num-nodes 1 --region $REGION_NAME
 kubectl get nodes
 
+# apply cluster
 kubectl apply -f deployment.yaml
 kubectl get pods
 
+# apply service
 kubectl apply -f service.yaml
 kubectl get services
 ```
@@ -21,10 +28,24 @@ kubectl get services
 
 - apply changes container and service
 
-# env
+# Env Variable Cloud Build
 
 ```
 _REGION
 _CLUSTER
 _TARGET_PORT
 ```
+
+# Docs
+
+### cloud builder image API
+
+- https://cloud.google.com/build/docs/cloud-builders
+
+### example CI/CD Google Kubernetes Engine
+
+- https://medium.com/platformer-blog/ci-cd-with-gke-and-google-cloud-build-98a797ecf346
+
+### Reserve IP addresses in GKE service
+
+- https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress
