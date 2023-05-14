@@ -17,5 +17,12 @@ steps:
       - --image=gcr.io/$PROJECT_ID/my-image:latest
       - --namespace=default
 
+  # apply service configuration
+  - name: "gcr.io/cloud-builders/kubectl"
+    args:
+      - "apply"
+      - "-f"
+      - "service.yaml"
+
 images:
   - "gcr.io/$PROJECT_ID/my-image"
