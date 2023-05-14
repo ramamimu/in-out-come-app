@@ -1,9 +1,9 @@
-# Kubernetes steps manually
+# Kubernetes deployment
 
 ```sh
-gcloud builds submit --tag gcr.io/dcdingprject/shell-image .
+gcloud builds submit --tag gcr.io/$PROJECT_ID/shell-image .
 
-gcloud container clusters create shell-gke-cluster --num-nodes 1 --zone asia-southeast2-a
+gcloud container clusters create $CLUSTER_NAME --num-nodes 1 --zone $ZONE_NAME
 kubectl get nodes
 
 kubectl apply -f deployment.yaml
@@ -13,22 +13,18 @@ kubectl apply -f service.yaml
 kubectl get services
 ```
 
-# Problem
-
-[] cannot automatically create cluster
-
-[] cannot apply -f service.yaml
-
-# To Do
-
-# Done
+# Automation setup
 
 - build image
 
 - push image to container registry
 
-- ? apply cluster
+- apply changes container and service
 
-- create cluster manually
+# env
 
-- create service manually
+```
+_REGION
+_CLUSTER
+_TARGET_PORT
+```
