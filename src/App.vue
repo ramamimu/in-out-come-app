@@ -32,7 +32,9 @@ export default {
     console.log("async onMounted");
     console.log("window location => ", window.location.host);
     console.log("window location hostname => ", window.location.hostname);
-    console.log("env => ", import.meta.env.VITE_ADDR_DEP);
+    console.log("Message from Configmaps => ", import.meta.env.VITE_MESSAGE);
+    console.log("Message from Configmaps 2 => ", import.meta.env.VITE_LOVE);
+    console.log("the secret is => ", import.meta.env.VITE_VERSION);
 
     this.SocketStore.socket.on(Emitter.data2UI, (data) => {
       console.log("data2UI", data);

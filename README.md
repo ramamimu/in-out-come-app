@@ -46,6 +46,6 @@ _TARGET_PORT
 
 - https://medium.com/platformer-blog/ci-cd-with-gke-and-google-cloud-build-98a797ecf346
 
-### Reserve IP addresses in GKE service
+### reserve IP addresses on GKE as service
 
 - https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress
